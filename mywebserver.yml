@@ -6,3 +6,7 @@
       apt:
         name: tree
         state: present
+    - name: create a file
+      file:
+        path: /home/ansible
+        state: touch
