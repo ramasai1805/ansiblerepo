@@ -8,5 +8,5 @@
         state: present
     - name: create a file
       file:
-        path: /home/ansible
+        path: /home/ansible/mytestfile
         state: touch
