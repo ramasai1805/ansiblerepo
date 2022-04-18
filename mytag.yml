@@ -2,28 +2,35 @@
 - hosts: all
   become: yes
   tasks:
-  - name: install web server
-    apt:
-     name: apache2
-     state: present
-    tags: mytomcat
-  - name: start web server
-    service:
-     name: apache2
-     state: started
-    tags: startTomcat
-  - name: install tree
-    apt:
-     name: tree
-     state: present
-    tags: mytree
-  - name: i want to create a file
-    file:
-     path: /home/ubuntu/mytestfile2
-     state: touch
-    tags: createfile
-  - name: copy dynamic file
-    template:
-     src: myindexfile.j2
-     dest: /var/www/html/index.html
-    tags: copyDynamic
+    - name: install web server
+      apt:
+        name: apache2
+        state: present
+      tags: mytomcat
+    - name: start web server
+      service:
+        name: apache2
+        state: started
+      tags: startTomcat
+    - name: install tree
+      apt:
+        name: tree
+        state: present
+      tags: mytree
+    - name: i want to create a file
+      file:
+        path: /home/ubuntu/mytestfile2
+        state: touch
+      tags: createfile
+      notiy: restartwebserver
+    - name: copy dynamic file
+      template:
+        src: myindexfile.j2
+        dest: /var/www/html/index.html
+      tags: copyDynamic
+      notiy: restartwebserver
+  handlers:
+    - name: restartwebserver
+      server:
+        name: apache2
+        state: restarted
